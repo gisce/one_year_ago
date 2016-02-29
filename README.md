@@ -6,11 +6,11 @@ It's important to define that we understand "the same day" as the day in a previ
 - Same week of year
 - Same weekday
   - Ensuring that if the present day is a working day, the past day must be too; and viceversa
-  - (WIP) Ensuring that if the present day is a holiday the past day must be the more close date (if there are no more than 30days of difference between the gap) or XXX
+  - (WIP) Ensuring that if the present day is a holiday the past day must be the more close date (if there are no more than 30days of difference between the gap) or XXX [issue #2]
 
 ## How to use it
 
-Just import it    # WIP pip installer
+Just import it    # WIP pip installer [issue #1]
 ```
 from one_year_ago.one_year_ago import OneYearAgo, REECalendar
 

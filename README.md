@@ -6,6 +6,7 @@ It's important to define that we understand "the same day" as the day in a previ
 - Same week of year
 - Same weekday
   - Ensuring that if the present day is a working day, the past day must be too; and viceversa
+  - (WIP) Ensuring that if the present day is a holiday the past day must be the more close date (if there are no more than 30days of difference between the gap) or XXX
 
 ## How to use it
 

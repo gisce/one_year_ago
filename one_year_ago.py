@@ -26,6 +26,36 @@ class REECalendar (WesternCalendar, ChristianMixin):
         (12, 6, u"Día de la Constitución Española")
     )
 
+    def get_same_holiday(self, current, past, day):
+        """
+        Get the same holiday on another year taking care about non fixed holidays
+        """
+
+        # Alternative safier but heavier, match labels instead go to finded index on the past year
+
+        year = past.year
+        year_current = current.year
+
+        day_current = current.day(day).day
+        month_current = current.day(day).month
+
+        logger.info("  - Searching {}/{}/{} holiday on {}".format(year_current, month_current, day_current, year))
+
+
+        index=-1
+
+        for idx, holiday in enumerate(self._holidays[year_current]):
+            if holiday[0].day == day_current  and holiday[0].month == month_current:
+                index=idx
+
+        if index != -1:
+            same_holiday = self._holidays[year][index]
+            logger.info("  - Found same holiday: {}/{}/{} [{}]".format(year, same_holiday[0].month, same_holiday[0].day, self._holidays[year][index][1]))
+
+            return datetime( year, same_holiday[0].month, same_holiday[0].day)
+
+        return None
+
 
     def get_next_workday(self,year, week, weekday):
         """
@@ -35,6 +65,8 @@ class REECalendar (WesternCalendar, ChristianMixin):
 
         Returns a datetime.date
         """
+        logger.info("  - Getting next week day since {}".format(Week(year, week).day(weekday)))
+
         if weekday >=FRI:
             weekday=MON
             week+=1
@@ -52,7 +84,7 @@ class REECalendar (WesternCalendar, ChristianMixin):
         Returns a datetime.date
         """
 
-        logger.info("Getting next weekend day since {}".format(Week(year, week).day(weekday)))
+        logger.info("  - Getting next weekend day since {}".format(Week(year, week).day(weekday)))
 
         if weekday==SUN:
             weekday=SAT
@@ -101,7 +133,7 @@ class OneYearAgo():
         self.get_year_ago(dia, 1)
 
 
-    def compare_days(self, ree_cal, current, past, day, test, correctionOK, correctionKO, result):
+    def compare_days(self, ree_cal, current, past, day, test, correctionOK, correctionKO, result=1):
         """
         Trigger any function to compare two days
 
@@ -134,17 +166,25 @@ class OneYearAgo():
         logger.info ("{}? current: {}, past: {}".format(test,test_current,test_past))
 
         if test_current != test_past:
-            logger.info ( "Present and past day don't accomplish {}".format(test))
+            logger.info ( " - Present and past day don't accomplish {}".format(test))
 
-            if test_current: # if current is accomplish the test // current is_working_day
-                test_OK = getattr(ree_cal, correctionOK)
-                return test_OK(past.year, past.week, day)
+            if test_current: # if current accomplish the test // current is_working_day
+                if correctionOK:
+                    test_OK = getattr(ree_cal, correctionOK)
+                    return test_OK(past.year, past.week, day)
+                else:
+                    return ree_cal.get_same_holiday(current, past, day)  ## enhacement to return the variable holidays for this year WIP
+                    #return datetime(past.year, current.day(day).month, current.day(day).day)
             else:
-                test_KO = getattr(ree_cal, correctionKO)
-                return test_KO(past.year, past.week, day)
+                if correctionKO:
+                    test_KO = getattr(ree_cal, correctionKO)
+                    return test_KO(past.year, past.week, day)
+                else:
+                    return ree_cal.get_same_holiday(current, past, day)
+                    #return datetime(past.year, current.day(day).month, current.day(day).day)
 
         else:
-            logger.info ( "Present and past day accomplish {}".format(test))
+            logger.info ( " - Present and past day accomplish {}".format(test))
             return None
 
 
@@ -152,9 +192,8 @@ class OneYearAgo():
         ree_cal = REECalendar()
 
 
-        past_day = self.compare_days(ree_cal, current, past, day, "is_workable","get_next_workday","get_next_weekend_day", 1)
-        past_day = self.compare_days(ree_cal, current, past, day, "is_holiday","get_next_workday","get_next_weekend_day", 1)
-
+        #past_day = self.compare_days(ree_cal, current, past, day, "is_workable","get_next_workday","get_next_weekend_day", 1)
+        past_day = self.compare_days(ree_cal, current, past, day, "is_holiday",None,None, 1)
 
         if past_day != None:
             return past_day
@@ -182,6 +221,8 @@ class OneYearAgo():
         week_current = Week(year, week)
 
         week_past = week_current.replace(year-years_ago, week)
+
+
 
         past_new = self.ensure_same_day_scenario(week_current, week_past, weekday)
 

@@ -65,6 +65,16 @@ class REECalendar (WesternCalendar, ChristianMixin):
         return  Week(year, week).day(weekday)
 
 
+    def is_workable(self, day):
+        if type(day) is datetime:
+            day = day.date()
+
+        if day.weekday() in self.get_weekend_days():
+             return False
+
+        return True
+
+
 
 class OneYearAgo():
 
@@ -141,7 +151,10 @@ class OneYearAgo():
     def ensure_same_day_scenario(self, current, past, day):
         ree_cal = REECalendar()
 
-        past_day = self.compare_days(ree_cal, current, past, day, "is_working_day","get_next_workday","get_next_weekend_day", 1)
+
+        past_day = self.compare_days(ree_cal, current, past, day, "is_workable","get_next_workday","get_next_weekend_day", 1)
+        past_day = self.compare_days(ree_cal, current, past, day, "is_holiday","get_next_workday","get_next_weekend_day", 1)
+
 
         if past_day != None:
             return past_day

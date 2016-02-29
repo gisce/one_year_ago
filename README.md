@@ -1,6 +1,6 @@
 # One Year Ago
 
-OneYearAgo provides an easy way to get the same day on a previous day.
+OneYearAgo provides an Easy way to get the same day scenario (week, weekday, working day and holiday) for a previous year.
 
 It's important to define that we understand "the same day" as the day in a previous year that accomplish:
 - Same week of year
@@ -13,7 +13,6 @@ It's important to define that we understand "the same day" as the day in a previ
 Just import it    # WIP pip installer [issue #1]
 ```
 from one_year_ago.one_year_ago import OneYearAgo, REECalendar
-
 ``` 
 
 and 
@@ -34,5 +33,10 @@ a_year_ago.get_one_year_ago()
 
 ## To set a different past years to get
 a_year_ago.get_year_ago(yearsago=2)
-
 ```
+
+## Example of use
+
+[GIST usage example](https://gist.github.com/XaviTorello/3b90b44983986a751685)
+
+

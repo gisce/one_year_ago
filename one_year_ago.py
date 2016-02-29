@@ -39,7 +39,7 @@ class REECalendar (WesternCalendar, ChristianMixin):
         day_current = current.day(day).day
         month_current = current.day(day).month
 
-        logger.info("  - Searching {}/{}/{} holiday on {}".format(year_current, month_current, day_current, year))
+        logger.debug("  - Searching {}/{}/{} holiday on {}".format(year_current, month_current, day_current, year))
 
 
         index=-1
@@ -50,7 +50,7 @@ class REECalendar (WesternCalendar, ChristianMixin):
 
         if index != -1:
             same_holiday = self._holidays[year][index]
-            logger.info("  - Found same holiday: {}/{}/{} [{}]".format(year, same_holiday[0].month, same_holiday[0].day, self._holidays[year][index][1]))
+            logger.debug("  - Found same holiday: {}/{}/{} [{}]".format(year, same_holiday[0].month, same_holiday[0].day, self._holidays[year][index][1]))
 
             return datetime( year, same_holiday[0].month, same_holiday[0].day)
 
@@ -65,7 +65,7 @@ class REECalendar (WesternCalendar, ChristianMixin):
 
         Returns a datetime.date
         """
-        logger.info("  - Getting next week day since {}".format(Week(year, week).day(weekday)))
+        logger.debug("  - Getting next week day since {}".format(Week(year, week).day(weekday)))
 
         if weekday >=FRI:
             weekday=MON
@@ -84,7 +84,7 @@ class REECalendar (WesternCalendar, ChristianMixin):
         Returns a datetime.date
         """
 
-        logger.info("  - Getting next weekend day since {}".format(Week(year, week).day(weekday)))
+        logger.debug("  - Getting next weekend day since {}".format(Week(year, week).day(weekday)))
 
         if weekday==SUN:
             weekday=SAT
@@ -163,10 +163,10 @@ class OneYearAgo():
         test_current = test_function(current.day(day))
         test_past = test_function(past.day(day))
 
-        logger.info ("{}? current: {}, past: {}".format(test,test_current,test_past))
+        logger.debug ("{}? current: {}, past: {}".format(test,test_current,test_past))
 
         if test_current != test_past:
-            logger.info ( " - Present and past day don't accomplish {}".format(test))
+            logger.debug ( " - Present and past day don't accomplish {}".format(test))
 
             if test_current: # if current accomplish the test // current is_working_day
                 if correctionOK:
@@ -184,7 +184,7 @@ class OneYearAgo():
                     #return datetime(past.year, current.day(day).month, current.day(day).day)
 
         else:
-            logger.info ( " - Present and past day accomplish {}".format(test))
+            logger.debug ( " - Present and past day accomplish {}".format(test))
             return None
 
 
@@ -192,7 +192,7 @@ class OneYearAgo():
         ree_cal = REECalendar()
 
 
-        #past_day = self.compare_days(ree_cal, current, past, day, "is_workable","get_next_workday","get_next_weekend_day", 1)
+        past_day = self.compare_days(ree_cal, current, past, day, "is_workable","get_next_workday","get_next_weekend_day", 1)
         past_day = self.compare_days(ree_cal, current, past, day, "is_holiday",None,None, 1)
 
         if past_day != None:
@@ -232,13 +232,15 @@ class OneYearAgo():
             self.day_one_year_ago =  datetime.combine(week_past.day(weekday), datetime.min.time() )
 
 
-        logger.debug ("Present day: {}".format(week_current.day(weekday)))
-        self.get_day_info(self.day_present.isocalendar())
+        logger.debug ("SUMMARY")
 
-        logger.debug ("One year ago: {}".format(week_past.day(weekday)))
-        self.get_day_info(self.day_one_year_ago.isocalendar())
+        logger.debug (" - Present day: {}".format(week_current.day(weekday)))
 
-        logger.info ("{} year ago from {} was {}" .format(years_ago, self.day_present, self.day_one_year_ago))
+        logger.debug (" - Past day ini: {}".format(week_past.day(weekday)))
+
+        logger.debug (" - Past day correction: {}".format(self.day_one_year_ago.strftime("%Y-%m-%d")))
+
+        logger.info ("{} year ago from {} was {}" .format(years_ago, self.day_present.strftime("%Y-%m-%d"), self.day_one_year_ago.strftime("%Y-%m-%d")))
 
 
     def get_current_week(self):

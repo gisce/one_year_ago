@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-#from workalendar.core import WesternCalendar, ChristianMixin
-#from workalendar.core import MON, TUE, WED, THU, FRI, SAT, SUN
 
 from electrical_calendar.electrical_calendar import REECalendar
 
@@ -11,7 +9,6 @@ from isoweek import Week
 import logging
 
 logger = logging.getLogger(__name__)
-
 
 
 class OneYearAgo():

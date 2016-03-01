@@ -12,21 +12,17 @@ It's important to define that we understand "the same day" as the day in a previ
 
 Just import it    # WIP pip installer [issue #1]
 ```
-from one_year_ago.one_year_ago import OneYearAgo, REECalendar
+from one_year_ago.one_year_ago import OneYearAgo
 ``` 
 
 and 
 ```
-from one_year_ago.one_year_ago import OneYearAgo, REECalendar
-
 logging.basicConfig(level=logging.DEBUG)
 
-print ree_cal.holidays(2016)
+day=datetime(2016,5,1)
+day=datetime.today()
 
-dia=datetime(2016,5,1)
-dia=datetime.today()
-
-a_year_ago = OneYearAgo(dia)
+a_year_ago = OneYearAgo(day)
 
 ## Get one year ago from the current day
 a_year_ago.get_one_year_ago()

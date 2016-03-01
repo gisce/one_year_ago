@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 class OneYearAgo():
 
     day_present=datetime
-    day_one_year_ago=datetime
+    day_year_ago=datetime
     years_ago = 1
 
 
@@ -33,7 +33,7 @@ class OneYearAgo():
 
 
     def get_one_year_ago(self, dia=None):
-        self.get_year_ago(dia, 1)
+        return self.get_year_ago(dia, 1)
 
 
     def compare_days(self, ree_cal, current, past, day, test, correctionOK, correctionKO, result=1):
@@ -130,9 +130,9 @@ class OneYearAgo():
         past_new = self.ensure_same_day_scenario(week_current, week_past, weekday)
 
         if past_new:
-            self.day_one_year_ago =  datetime.combine(past_new, datetime.min.time() )
+            self.day_year_ago =  datetime.combine(past_new, datetime.min.time())
         else:
-            self.day_one_year_ago =  datetime.combine(week_past.day(weekday), datetime.min.time() )
+            self.day_year_ago =  datetime.combine(week_past.day(weekday), datetime.min.time())
 
 
         logger.debug ("SUMMARY")
@@ -141,9 +141,11 @@ class OneYearAgo():
 
         logger.debug (" - Past day ini: {}".format(week_past.day(weekday)))
 
-        logger.debug (" - Past day correction: {}".format(self.day_one_year_ago.strftime("%Y-%m-%d")))
+        logger.debug (" - Past day correction: {}".format(self.day_year_ago.strftime("%Y-%m-%d")))
 
-        logger.info ("{} year ago from {} was {}" .format(years_ago, self.day_present.strftime("%Y-%m-%d"), self.day_one_year_ago.strftime("%Y-%m-%d")))
+        logger.info ("{} year ago from {} was {}" .format(years_ago, self.day_present.strftime("%Y-%m-%d"), self.day_year_ago.strftime("%Y-%m-%d")))
+
+        return self.day_year_ago
 
 
     def get_current_week(self):
@@ -152,3 +154,4 @@ class OneYearAgo():
 
     def get_past_week(self):
         return self.day_present.isocalendar()[1]
+

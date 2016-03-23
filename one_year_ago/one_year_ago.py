@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
+__author__ = 'XaviTorello'
 
-from electrical_calendar.electrical_calendar import REECalendar
+from electrical_calendar import REECalendar
 
 from datetime import datetime
 
@@ -11,7 +12,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class OneYearAgo():
+class OneYearAgo(object):
 
     day_present=datetime
     day_year_ago=datetime

@@ -1,2 +1,2 @@
 isoweek
-workalendar
+electrical_calendar

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
+__author__ = 'XaviTorello'
 
-from electrical_calendar.electrical_calendar import REECalendar
+from electrical_calendar import REECalendar
 
 from datetime import datetime
 
@@ -11,7 +12,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class OneYearAgo():
+class OneYearAgo(object):
 
     day_present=datetime
     day_year_ago=datetime
@@ -19,9 +20,10 @@ class OneYearAgo():
 
 
     def __init__(self, dia, years=1):
+        assert type(dia) == datetime, "Day must be a datetime object"
         self.years_ago= int(years)
         self.day_present=dia
-        self.get_one_year_ago()
+        self.get_year_ago(self.day_present, self.years_ago)
 
 
     def get_day_info(self,day):

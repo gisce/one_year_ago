@@ -20,9 +20,10 @@ class OneYearAgo(object):
 
 
     def __init__(self, dia, years=1):
+        assert type(dia) == datetime, "Day must be a datetime object"
         self.years_ago= int(years)
         self.day_present=dia
-        self.get_one_year_ago()
+        self.get_year_ago(self.day_present, self.years_ago)
 
 
     def get_day_info(self,day):

@@ -1,3 +1,5 @@
+![Build Status](https://api.travis-ci.org/gisce/one_year_ago.svg)
+
 # One Year Ago
 
 OneYearAgo provides an Easy way to get the same day scenario (week, weekday, working day and holiday) for a previous year.

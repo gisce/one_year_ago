@@ -71,6 +71,11 @@ with description("One Year Ago"):
             assert fa_un_any.isoweekday() == dia.isoweekday(), "Not have the same week day; present: {}({}), past: {}({})".format(
                 dia, dia.isoweekday(), fa_un_any, fa_un_any.isoweekday())
 
+        with it('2018/12/31 (monday) -> 2018/01/01 (monday)'):
+            dia = datetime.datetime(2017, 12, 31)
+            assert fa_un_any.isoweekday() == dia.isoweekday(), "Not have the same week day; present: {}({}), past: {}({})".format(
+                dia, dia.isoweekday(), fa_un_any, fa_un_any.isoweekday())
+
 
 # todo TEST week number
 

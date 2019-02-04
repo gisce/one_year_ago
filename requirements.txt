@@ -1,2 +1,2 @@
 isoweek
-https://github.com/gisce/electrical_calendar
+https://github.com/gisce/electrical_calendar/archive/master.zip
